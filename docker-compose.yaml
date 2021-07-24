@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  nginx-proxy:
+    container_name: papudehome
+    image: docker.ambevdevs.com.br/papude/papude-home-amd64:latest
+    restart: always
+    networks:
+      - papude_net
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "./vhost.d:/etc/nginx/vhost.d:ro"
+
+  portainer:
+    container_name: portainer
+    image: docker.ambevdevs.com.br/papude/portainer-amd64:latest
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    networks:
+      - papude_net
+    environment:
+      - VIRTUAL_HOST=portainer
+      - VIRTUAL_PORT=9000
+    ports:
+      - 8000:8000
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+networks:
+  papude:
+
+volumes:
+  portainer_data:
+
+networks:
+  papude_net:
+    driver: bridge
