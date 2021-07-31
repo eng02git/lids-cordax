@@ -130,7 +130,7 @@ def write_data(df_ferramenta, colecao):
 		st.success('Ferramenta adicionada com sucesso!')
 
 		# Limpa cache
-		caching.clear_cache()
+		#caching.clear_cache()
 
 		# flag para rodar novamente o script
 		rerun = True
