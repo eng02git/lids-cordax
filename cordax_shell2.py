@@ -505,7 +505,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 	with st.beta_expander('Histórico da ferramenta do conjunto'):
 
 		response = AgGrid(
-			df_firebase[df_firebase['Conjunto'] == conjunto],
+			df_firebase[df_firebase['Conjunto'] == str(conjunto)],
 			gridOptions=gridOptions,
 			height=grid_height,
 			width='100%',
