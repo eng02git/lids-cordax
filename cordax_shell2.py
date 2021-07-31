@@ -446,7 +446,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 		if selecionar:
 			# define os dados a serem inseridos
-			ferramenta_selecionada = df_firebase[df_firebase['ID'] == id_selecionado]
+			ferramenta_selecionada = df_firebase[df_firebase['ID'] == id_selecionado].copy()
 			ferramenta_selecionada['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 			ferramenta_selecionada['Nome'] = nome
 			ferramenta_selecionada['Status'] = 'Em Uso'
