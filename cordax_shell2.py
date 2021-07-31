@@ -725,7 +725,7 @@ dfull2 = ajuste_dados2(df_full.rename(columns=dicionario_colunas))
 #t1.write(dfull2)
 
 with t1:
-	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(715, dfull2, 0, 0, False)
+	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(650, dfull2, 0, 0, False)
 	response = AgGrid(
 			dfull2,
 			gridOptions=gridOptions,
