@@ -428,7 +428,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 					df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
 					df_firebase = df_firebase.append(ferramenta_retificada)
-					dados = df_firebase
+					dados = dados.append(ferramenta_retificada)
 					write_data(df_firebase, colecao)
 
 			else:
@@ -453,7 +453,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Conjunto'] = conjunto
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
-			dados = df_firebase
+			dados = dados.append(ferramenta_selecionada)
 			write_data(df_firebase, colecao)
 	
 	if ferramenta_em_uso.shape[0] > 0:
@@ -486,7 +486,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Conjunto'] = conjunto
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
-			dados = df_firebase
+			dados = dados.append(ferramenta_selecionada)
 			write_data(df_firebase, colecao)
 
 	st.subheader('Historico de medidas')
