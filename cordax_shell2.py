@@ -133,11 +133,12 @@ def write_data(df_ferramenta, colecao):
 		#caching.clear_cache()
 
 		# flag para rodar novamente o script
-		rerun = True
+		return = True
 	except:
 		st.error('Falha ao adicionar ferramenta, tente novamente ou entre em contato com suporte!')
-	if rerun:
-		st.experimental_rerun()
+		return False
+	#if rerun:
+		#st.experimental_rerun()
 
 
 # leitura de dados do banco
@@ -342,7 +343,8 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 	# carrega dados do banco de dados
 	df_firebase = dados
-
+	rerun = False
+	
 	with t2:
 		with st.beta_expander('Adicionar nova ferramenta ao sistema'):
 			adicionar_ferramental(df_firebase, nomes, colecao)
@@ -428,8 +430,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 					df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
 					df_firebase = df_firebase.append(ferramenta_retificada)
-					dados = dados.append(ferramenta_retificada)
-					write_data(df_firebase, colecao)
+					rerun = write_data(df_firebase, colecao)
 
 			else:
 				t2.error('Dados invalidos')
@@ -453,8 +454,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Conjunto'] = conjunto
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
-			dados = dados.append(ferramenta_selecionada)
-			write_data(df_firebase, colecao)
+			rerun = write_data(df_firebase, colecao)
 	
 	if ferramenta_em_uso.shape[0] > 0:
 		# modificar a ferramenta
@@ -486,8 +486,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Conjunto'] = conjunto
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
-			dados = dados.append(ferramenta_selecionada)
-			write_data(df_firebase, colecao)
+			rerun = write_data(df_firebase, colecao)
 
 	st.subheader('Historico de medidas')
 	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(
@@ -503,7 +502,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
 		enable_enterprise_modules=enable_enterprise_modules)
 
-	return ferramenta_em_uso
+	return ferramenta_em_uso, rerun, df_firebase
 
 
 ########################################################################################################################
@@ -683,6 +682,8 @@ if em_uso_up.shape[0] > 0:
 
 t1.write(df_full.T)
 
+rerun = False
+
 # Tela DIE CORE RING
 if sel_tela == 'DIE CORE RING':
 
@@ -693,7 +694,7 @@ if sel_tela == 'DIE CORE RING':
 	medida = ['DCR_A', 'DCR_B', 'DCR_C']
 
 	#dados = load_colecoes('DIE_CORE_RING', colunas)
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida,'DIE_CORE_RING', dados_dcr, conjunto)
+	ferramenta_em_uso, rerun, dados_dcr = teste(val_max, val_min, titulo, medida,'DIE_CORE_RING', dados_dcr, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('DIE_CORE_RING.html', 'r', encoding='utf-8')
@@ -733,7 +734,7 @@ if sel_tela == 'INNER PRESSURE SLEVE':
 	medida = ['IPS_A', 'IPS_B', 'IPS_C']
 
 	#dados = load_colecoes('INNER_PRESSURE_SLEVE', colunas)
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida,'INNER_PRESSURE_SLEVE', dados_ips, conjunto)
+	ferramenta_em_uso, rerun, dados_ips = teste(val_max, val_min, titulo, medida,'INNER_PRESSURE_SLEVE', dados_ips, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('INNER_PRESSURE_SLEVE.html', 'r', encoding='utf-8')
@@ -769,7 +770,7 @@ if sel_tela == 'PANEL PUNCH PISTON':
 	titulo = ['PPP_A: (1.0395 até 1.0405)']
 	medida = ['PPP_A']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida,'PANEL_PUNCH_PISTON', dados_ppp, conjunto)
+	ferramenta_em_uso, rerun, dados_ppp = teste(val_max, val_min, titulo, medida,'PANEL_PUNCH_PISTON', dados_ppp, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('PANEL_PUNCH_PISTON.html', 'r', encoding='utf-8')
@@ -802,7 +803,7 @@ if sel_tela == 'UPPER PISTON':
 	titulo = ['UP_A: (2.8410 até 2.8420)']
 	medida = ['UP_A']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida,'UPPER_PISTON', dados_up, conjunto)
+	ferramenta_em_uso, rerun, dados_up = teste(val_max, val_min, titulo, medida,'UPPER_PISTON', dados_up, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('UPPER_PISTON.html', 'r', encoding='utf-8')
@@ -835,7 +836,7 @@ if sel_tela == 'DIE CENTER PISTON':
 	titulo = ['DCP_A: (3.2847 até 3.2857)', 'DCP_B: (2.6360 até 2.6370)']
 	medida = ['DCP_A', 'DCP_B']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida, 'DIE_CENTER_PISTON', dados_dcp, conjunto)
+	ferramenta_em_uso, rerun, dados_dcp = teste(val_max, val_min, titulo, medida, 'DIE_CENTER_PISTON', dados_dcp, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('DIE_CENTER_PISTON.html', 'r', encoding='utf-8')
@@ -870,7 +871,7 @@ if sel_tela == 'DIE CENTER PUNCH PISTON':
 	titulo = ['DCPP_A: (0.9999 até 1.0001)', 'DCPP_B: (1.8195 até 1.8200)']
 	medida = ['DCPP_A', 'DCPP_B']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida, 'DIE_CENTER_PUNCH_PISTON', dados_dcpp, conjunto)
+	ferramenta_em_uso, rerun, dados_dcpp = teste(val_max, val_min, titulo, medida, 'DIE_CENTER_PUNCH_PISTON', dados_dcpp, conjunto)
 	
 	# carrega pagina html
 	htmlfile = open('DIE_CENTER_PUNCH.html', 'r', encoding='utf-8')
@@ -905,7 +906,7 @@ if sel_tela == 'PANEL PUNCH':
 	titulo = ['PP_A: (0.6546 até 0.6548)', 'PP_B: (1.8835 até 1.8840)']
 	medida = ['PP_A', 'PP_B']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida, 'PANEL_PUNCH', dados_pp, conjunto)
+	ferramenta_em_uso, rerun, dados_pp = teste(val_max, val_min, titulo, medida, 'PANEL_PUNCH', dados_pp, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('PANEL_PUNCH.html', 'r', encoding='utf-8')
@@ -940,7 +941,7 @@ if sel_tela == 'LOWER PISTON':
 	titulo = ['LP_A: (1.1860 até 1.1870)', 'LP_B: (0.7000 até 0.7030)']
 	medida = ['LP_A', 'LP_B']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida, 'LOWER_PISTON', dados_lp, conjunto)
+	ferramenta_em_uso, rerun, dados_lp = teste(val_max, val_min, titulo, medida, 'LOWER_PISTON', dados_lp, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('LOWER_PISTON.html', 'r', encoding='utf-8')
@@ -975,7 +976,7 @@ if sel_tela == 'BLANK DRAW':
 	titulo = ['BD_A: (2.8508 até 2.8510)', 'BD_B: (2.3905 até 2.3915)']
 	medida = ['BD_A', 'BD_B']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida, 'BLANK_DRAW', dados_bd, conjunto)
+	ferramenta_em_uso, rerun, dados_bd = teste(val_max, val_min, titulo, medida, 'BLANK_DRAW', dados_bd, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('BLANK_DRAW.html', 'r', encoding='utf-8')
@@ -1010,7 +1011,7 @@ if sel_tela == 'CUT EDGE':
 	titulo = ['CE_A: (1.1877 até 1.1873)']
 	medida = ['CE_A']
 
-	ferramenta_em_uso = teste(val_max, val_min, titulo, medida, 'CUT_EDGE', dados_ce, conjunto)
+	ferramenta_em_uso, rerun, dados_ce = teste(val_max, val_min, titulo, medida, 'CUT_EDGE', dados_ce, conjunto)
 
 	# carrega pagina html
 	htmlfile = open('CUT_EDGE.html', 'r', encoding='utf-8')
@@ -1034,3 +1035,6 @@ if sel_tela == 'CUT EDGE':
 										  v0='',
 										  nome='Última alteração feita por: ',
 										  data='Data: '), height=775)
+if rerun:
+	st.experimental_rerun()
+	
