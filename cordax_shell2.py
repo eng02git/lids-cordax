@@ -515,7 +515,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			update_mode=update_mode_value,
 			fit_columns_on_grid_load=fit_columns_on_grid_load,
 			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
-			enable_enterprise_modules=enable_enterprise_modules)
+			enable_enterprise_modules=enable_enterprise_modules, key='Historico de medidas')
 		
 	with st.beta_expander('Histórico da ferramenta do conjunto'):
 
@@ -528,7 +528,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			update_mode=update_mode_value,
 			fit_columns_on_grid_load=fit_columns_on_grid_load,
 			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
-			enable_enterprise_modules=enable_enterprise_modules)
+			enable_enterprise_modules=enable_enterprise_modules, key='Histórico da ferramenta do conjunto')
 	
 	with st.beta_expander('Histórico completo'):
 
@@ -541,7 +541,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			update_mode=update_mode_value,
 			fit_columns_on_grid_load=fit_columns_on_grid_load,
 			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
-			enable_enterprise_modules=enable_enterprise_modules)
+			enable_enterprise_modules=enable_enterprise_modules, key='Histórico completo')
 
 	return ferramenta_em_uso
 
