@@ -133,7 +133,7 @@ def write_data(df_ferramenta, colecao):
 		#caching.clear_cache()
 
 		# flag para rodar novamente o script
-		return = True
+		return True
 	except:
 		st.error('Falha ao adicionar ferramenta, tente novamente ou entre em contato com suporte!')
 		return False
