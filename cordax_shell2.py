@@ -242,6 +242,21 @@ def ajuste_dados(df):
 	return nome_last, data_last, df_row0[['Medidas', 'V']]
 
 
+def ajuste_dados2(df):
+	# seleciona a primeira linha e a transforma em coluna
+
+	df_row0 = df.reset_index().T
+
+	# reseta index (index vira uma coluna)
+	df_row0 = df_row0.reset_index()
+
+	# Renomeia a coluna dos valores
+	df_row0.rename(columns={0: "Valores"}, inplace=True)
+	df_row0.rename(columns={'index': "Medidas"}, inplace=True)
+
+	# retorna o nome, data e dataset organizado para ser editado e exibido no html
+	return df_row0[['Medidas', 'Valores']]
+
 ###########################################################################################################################################
 #####								cofiguracoes aggrid											#######
 ###########################################################################################################################################
@@ -706,7 +721,8 @@ if em_uso_bd.shape[0] > 0:
 if em_uso_up.shape[0] > 0:
 	df_full.iloc[0,19]	= em_uso_up.iloc[0,5]		# UPPER PISTON A
 
-t1.write(df_full.T)
+dfull2 = ajuste_dados2(df_full)
+t1.write(dfull2)
 
 # Tela DIE CORE RING
 if sel_tela == 'DIE CORE RING':
