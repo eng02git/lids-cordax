@@ -453,6 +453,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
 			write_data(df_firebase, colecao)
+			st.write(df_firebase)
 			return ferramenta_em_uso, df_firebase
 	if ferramenta_em_uso.shape[0] > 0:
 		# modificar a ferramenta
