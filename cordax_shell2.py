@@ -1036,5 +1036,5 @@ if sel_tela == 'CUT EDGE':
 										  nome='Última alteração feita por: ',
 										  data='Data: '), height=775)
 if rerun:
-	st.experimental_rerun()
-	
+	#st.experimental_rerun()
+	pass
