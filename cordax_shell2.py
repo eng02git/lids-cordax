@@ -504,18 +504,20 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 	st.subheader('Historico de medidas')
 	
 	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(715, df_firebase, 0, 0, False)
-	with st.beta_expander('Histórico da ferramenta em uso'):
+	
+	if ferramenta_em_uso.shape[0] > 0:
+		with st.beta_expander('Histórico da ferramenta em uso'):
 
-		response = AgGrid(
-			df_firebase[df_firebase['ID'] == ferramenta_em_uso.iloc[0,0]],
-			gridOptions=gridOptions,
-			height=grid_height,
-			width='100%',
-			data_return_mode=return_mode_value,
-			update_mode=update_mode_value,
-			fit_columns_on_grid_load=fit_columns_on_grid_load,
-			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
-			enable_enterprise_modules=enable_enterprise_modules, key='Historico de medidas')
+			response = AgGrid(
+				df_firebase[df_firebase['ID'] == ferramenta_em_uso.iloc[0,0]],
+				gridOptions=gridOptions,
+				height=grid_height,
+				width='100%',
+				data_return_mode=return_mode_value,
+				update_mode=update_mode_value,
+				fit_columns_on_grid_load=fit_columns_on_grid_load,
+				allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
+				enable_enterprise_modules=enable_enterprise_modules, key='Historico de medidas')
 		
 	with st.beta_expander('Histórico da ferramenta do conjunto'):
 
