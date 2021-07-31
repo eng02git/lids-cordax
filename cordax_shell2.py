@@ -867,8 +867,8 @@ if sel_tela == 'DIE CENTER PUNCH PISTON':
 	titulo = ['DCPP_A: (0.9999 até 1.0001)', 'DCPP_B: (1.8195 até 1.8200)']
 	medida = ['DCPP_A', 'DCPP_B']
 
-	ferramenta_em_uso, dados_dcpp = teste(val_max, val_min, titulo, medida, 'DIE_CENTER_PUNCH_PISTON', dados_dcpp, conjunto)
-
+	ferramenta_em_uso, dados_dcpp_ = teste(val_max, val_min, titulo, medida, 'DIE_CENTER_PUNCH_PISTON', dados_dcpp, conjunto)
+	dados_dcpp = dados_dcpp_
 	# carrega pagina html
 	htmlfile = open('DIE_CENTER_PUNCH.html', 'r', encoding='utf-8')
 	source = htmlfile.read()
