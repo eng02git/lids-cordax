@@ -431,7 +431,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 					df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
 					df_firebase = df_firebase.append(ferramenta_retificada)
 					rerun = write_data(df_firebase, colecao)
-					st.write(df_firebase)
+					
 					return ferramenta_em_uso, rerun, df_firebase
 
 			else:
@@ -456,6 +456,8 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Conjunto'] = conjunto
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
+			st.write(df_firebase)
+			dados = dados.append(ferramenta_selecionada)
 			rerun = write_data(df_firebase, colecao)
 			return ferramenta_em_uso, rerun, df_firebase
 	
