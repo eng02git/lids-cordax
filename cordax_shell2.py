@@ -431,6 +431,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 					df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
 					df_firebase = df_firebase.append(ferramenta_retificada)
 					rerun = write_data(df_firebase, colecao)
+					return ferramenta_em_uso, rerun, df_firebase
 
 			else:
 				t2.error('Dados invalidos')
@@ -455,6 +456,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
 			rerun = write_data(df_firebase, colecao)
+			return ferramenta_em_uso, rerun, df_firebase
 	
 	if ferramenta_em_uso.shape[0] > 0:
 		# modificar a ferramenta
@@ -487,6 +489,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
 			rerun = write_data(df_firebase, colecao)
+			return ferramenta_em_uso, rerun, df_firebase
 
 	st.subheader('Historico de medidas')
 	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(
