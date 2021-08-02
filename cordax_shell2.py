@@ -260,9 +260,9 @@ def ajuste_dados2(df, mode):
 		# retorna o nome, data e dataset organizado para ser editado e exibido no html
 		return df_row0[['Medidas', 'Valores']]
 	elif mode == 1:
-		
+
 		# reseta index (index vira uma coluna)
-		df_row0 = df_row0.reset_index()
+		df_row0 = df.reset_index()
 		
 		df_row0.rename(columns={0: "Strokes"}, inplace=True)
 		df_row0.rename(columns={'index': "Ferramentas"}, inplace=True)
