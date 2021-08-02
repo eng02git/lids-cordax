@@ -25,14 +25,13 @@ st.set_page_config(
 ######################################################################################################
 # Configurando acesso ao firebase
 ######################################################################################################
-textkey_2 = """{\n  \"type\": \"service_account\",\n  \"project_id\": \"lid-forms\",\n  \"private_key_id\": \"de4fcc45d24308eaa9101b4d4d651c0e1f1c192e\",\n  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQL7wXeUw7bxgB\\n0kivlcQyVhrBW+ufV1cgv1ySMjqhBxuGK6/4x3Po2/a/phcPxYN7hfsmcq1ZmCMx\\nMHU2TicbRtxA0XqXCi1wfbHYUQk49fT7SJRI9R5C3cCq6hicAYXAdC0BCqvXcmB7\\n8JSRBhdiLmMziQlcb1OkKtTrMkg8/2xhPXVQ8snBzYxrcpGL70IUMW/4FKdABBxg\\ne1uV8Xs11e3pWqQVNxd6FKnanBg/88/wleMb0wZRc0ULhrVEJCFYX8ycjLgoMn4+\\nKNDXdl7zs41IoEdSqs9VTjrrJFGPE6lxUO/qb4FE76qU/4BEmyXjiggLFpu+mjOO\\n0JvN2E6xAgMBAAECggEAB0NISQcUoR0doKCG2xqtqSVvhT7hQFj7bAxc7YZMhWZL\\na3eRjnP+3C4RoKINS6o/eb42zOnTiThMdC1Z3MmUrF87jU5KoQdjtjoL9nalLXKC\\nNmgiWVxze5saRIxfKfiPqVvmFRqEVmljVSA6COYS0SC/YXitI96oYBQXk939XTPN\\nz5LxXyubM00vK1MgdCw8lMajE0l1w7FkqyupolStYeX8l23Kfp6o/Kte/IdZpWR6\\ngefnMEvVCUorNjpuFlvOQrxgm6ygAsuFglRshPqXzUS9761TyBcKPdr4znAA3gns\\nrEqi+6Lrh9xz+t5K8aHodjzvNHQ9yjAiGZHZsoO5WQKBgQDK7IXXslOz7lJ5ZLSl\\njJRtLbs6C0cOmmf+7UQXJmtsL0OHsYgWMzTtrqEo2EqCq0C8UCvCCyUs/d0LrwU4\\n40U9+CUYQMP9PtezqK23XFuLg7upJzY2AH3mNkRr8CMCuyWisw+W/o8QF6jUijtP\\nT0JIrdYyfrGUEx+JnogW4pW+pQKBgQC15j3D/0zRBaM71DjXGc9UDX2M7V56e07S\\nsEJvvzTPbh86VQ3sZTVPoC1jXhV/IzyT3+uxMvrNhEwP15pQzLkMW2J/uZzI3Q+L\\nvhUl6Lk8RIMTFFO2CkNfugPZwPmUxe9/Cu0y9AbeBR7v1zouxFkaNAEkMOrpQ3Ds\\nDwWqLbL+HQKBgAlzMlh1KYi7lIOquO7suQzMkGeHluuLLUSl8AHT/DSxjseG8Pt3\\nrwNSmpa4W9/x8bXTVfZXZofN2rlskSWxD8xu/es/OOFWR91KAa0EVA8PN3INLW0e\\nYL6T0GPmbvr1lC8bf6JcgHUTZP1g4poy6rdPwSXg2Iw4x8M06smGC8sxAoGBAKAx\\nKGwXxhq+kEb8WyJ0BHbNeqhF01KijYRW3etzxJp5LN8+UIjDiPOa6N392YiiC5Nf\\nPD5N2zprLGE3Sxulb8JGKLS7TixHIo261P0RuzAsVhLTb/V9jGAdfY6juCkhOA32\\nHXcmGXYlpF0senz9RkshSXAJ9JeBYU1C3YZFwMCxAoGAaFm980daY3c3P/6mSWC6\\nTImniGbAUbUNFxpC3VUcDTtaC4WtGNe5vcVbvPxWXqBTPo8S7q5eq0JWJipfy4Gp\\ncU3+qMM+Z9jLwasmwKAjN066BH1gPC6AB9m+T2U/N6EY1mTp+DEYfFGhwJCB9coC\\nJ2krpcK4f+zsV7XGgnwUhic=\\n-----END PRIVATE KEY-----\\n\",\n  \"client_email\": \"firebase-adminsdk-r4dlw@lid-forms.iam.gserviceaccount.com\",\n  \"client_id\": \"101767194762733526952\",\n  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n  \"token_uri\": \"https://oauth2.googleapis.com/token\",\n  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-r4dlw%40lid-forms.iam.gserviceaccount.com\"\n}\n"""
 
 # Pega as configurações do banco do segredo
-key_dict = json.loads(textkey_2)
+key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
 
 # Seleciona o projeto
-db = firestore.Client(credentials=creds, project="lid-forms")
+db = firestore.Client(credentials=creds, project="lid-cordax")
 
 # Ajustando fuso
 
@@ -69,8 +68,10 @@ def adicionar_ferramental(df_ferramenta, nomes, colecao):
 			include['Status'] = 'Disponível'
 			include['Conjunto'] = '-'
 			include['Reformada'] = 'Não'
+			include['Strokes'] = '-'
+			include['Dif_strokes'] = '-'
 
-			ferramentas = df_ferramenta.drop(['Data', 'ID', 'Nome', 'Status', 'Conjunto', 'Reformada'], axis=1)
+			ferramentas = df_ferramenta.drop(['Data', 'ID', 'Nome', 'Status', 'Conjunto', 'Reformada', 'Strokes', 'Dif_strokes'], axis=1)
 
 			for col in ferramentas.columns:
 				include[col] = st.number_input('Valor da medida ' + col + ':', step=0.0001, format="%0.1111f")
@@ -635,52 +636,52 @@ nome = i00.selectbox('Nome do colaborador:', nomes)
 # Leitura do banco de dados
 
 # DIE_CORE_RING
-colunas_dcr = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'DCR_A', 'DCR_B', 'DCR_C', 'Reformada']
+colunas_dcr = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'DCR_A', 'DCR_B', 'DCR_C', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_dcr = load_colecoes('DIE_CORE_RING', colunas_dcr)
 em_uso_dcr = dados_dcr.loc[(dados_dcr['Status'] == 'Em Uso') & (dados_dcr['Conjunto'] == str(conjunto))]
 
 # PANEL_PUNCH_PISTON
-colunas_ppp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'PPP_A', 'Reformada']
+colunas_ppp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'PPP_A', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_ppp = load_colecoes('PANEL_PUNCH_PISTON', colunas_ppp)
 em_uso_ppp = dados_ppp.loc[(dados_ppp['Status'] == 'Em Uso') & (dados_ppp['Conjunto'] == str(conjunto))]
 
 # PANEL_PUNCH
-colunas_pp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'PP_A', 'PP_B', 'Reformada']
+colunas_pp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'PP_A', 'PP_B', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_pp = load_colecoes('PANEL_PUNCH', colunas_pp)
 em_uso_pp = dados_pp.loc[(dados_pp['Status'] == 'Em Uso') & (dados_pp['Conjunto'] == str(conjunto))]
 
 # LOWER_PISTON
-colunas_lp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'LP_A', 'LP_B', 'Reformada']
+colunas_lp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'LP_A', 'LP_B', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_lp = load_colecoes('LOWER_PISTON', colunas_lp)
 em_uso_lp = dados_lp.loc[(dados_lp['Status'] == 'Em Uso') & (dados_lp['Conjunto'] == str(conjunto))]
 
 # CUT_EDGE
-colunas_ce = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'CE_A', 'Reformada']
+colunas_ce = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'CE_A', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_ce = load_colecoes('CUT_EDGE', colunas_ce)
 em_uso_ce = dados_ce.loc[(dados_ce['Status'] == 'Em Uso') & (dados_ce['Conjunto'] == str(conjunto))]
 
 # BLANK_DRAW
-colunas_bd = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'BD_A', 'BD_B', 'Reformada']
+colunas_bd = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'BD_A', 'BD_B', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_bd = load_colecoes('BLANK_DRAW', colunas_bd)
 em_uso_bd = dados_bd.loc[(dados_bd['Status'] == 'Em Uso') & (dados_bd['Conjunto'] == str(conjunto))]
 
 # DIE_CENTER_PUNCH_PISTON
-colunas_dcpp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'DCPP_A', 'DCPP_B', 'Reformada']
+colunas_dcpp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'DCPP_A', 'DCPP_B', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_dcpp = load_colecoes('DIE_CENTER_PUNCH_PISTON', colunas_dcpp)
 em_uso_dcpp = dados_dcpp.loc[(dados_dcpp['Status'] == 'Em Uso') & (dados_dcpp['Conjunto'] == str(conjunto))]
 
 # DIE_CENTER_PISTON
-colunas_dcp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'DCP_A', 'DCP_B', 'Reformada']
+colunas_dcp = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'DCP_A', 'DCP_B', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_dcp = load_colecoes('DIE_CENTER_PISTON', colunas_dcp)
 em_uso_dcp = dados_dcp.loc[(dados_dcp['Status'] == 'Em Uso') & (dados_dcp['Conjunto'] == str(conjunto))]
 
 # INNER_PRESSURE_SLEVE
-colunas_ips = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'IPS_A', 'IPS_B', 'IPS_C', 'Reformada']
+colunas_ips = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'IPS_A', 'IPS_B', 'IPS_C', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_ips = load_colecoes('INNER_PRESSURE_SLEVE', colunas_ips)
 em_uso_ips = dados_ips.loc[(dados_ips['Status'] == 'Em Uso') & (dados_ips['Conjunto'] == str(conjunto))]
 
 # UPPER_PISTON
-colunas_up = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'UP_A', 'Reformada']
+colunas_up = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'UP_A', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_up = load_colecoes('UPPER_PISTON', colunas_up)
 em_uso_up = dados_up.loc[(dados_up['Status'] == 'Em Uso') & (dados_up['Conjunto'] == str(conjunto))]
 
