@@ -581,12 +581,12 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		
 	with st.beta_expander('Histórico Strokes por ferramenta'):
 		df_plot = df_firebase[df_firebase['Dif_strokes'] != '-']
-		st.write(df_plot)
 		df_plot = df_plot[['ID', 'Dif_strokes']]
-		st.write(df_plot)
+		df_plot['Dif_strokes'] = df_plot['Dif_strokes'].astype('int')
+		#st.write(df_plot)
 		#df_plot = df_plot.groupby(['ID']).sum()
-		#st.write(df_plot.groupby(by=['ID']).mean())
-		st.write(df_plot.agg(['sum']))
+		st.write(df_plot.groupby(by=['ID']).sum())
+		#st.write(df_plot.agg(['sum']))
 
 	return ferramenta_em_uso
 
