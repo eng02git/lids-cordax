@@ -624,7 +624,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			    subplot_titles=("Distribuição da quantidade de strokes por ferramenta"),
 			    column_widths=[1]
 			   )
-			fig.add_trace(go.Histogram(x=df_plot2['Total de Strokes da ferramenta'], marker_color=colors, nbins=20), row=1, col=1)
+			fig.add_trace(go.Histogram(x=df_plot2['Total de Strokes da ferramenta'], marker_color=colors, xbins = dict(start=0, end=20000000, size=1000000)), row=1, col=1)
 			col2.write(fig)
 
 	return ferramenta_em_uso
