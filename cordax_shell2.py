@@ -498,7 +498,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1)
 		
 		# verfica o numero de strokes da ferramenta em uso
-		t2.write(ferramenta_em_uso.Strokes)
+		t2.write(ferramenta_em_uso.Strokes[0])
 		
 		# verifica se numero de strokes e maior do que zero
 		selecionar = False
