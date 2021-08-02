@@ -503,7 +503,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 	st.subheader('Historico de medidas')
 	
-	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(715, df_firebase, 0, 0, False)
+	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(500, df_firebase, 0, 0, False)
 	
 	if ferramenta_em_uso.shape[0] > 0:
 		with st.beta_expander('Histórico da ferramenta em uso'):
