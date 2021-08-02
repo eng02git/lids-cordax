@@ -585,7 +585,8 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		df_plot = df_plot[['ID', 'Dif_strokes']]
 		st.write(df_plot)
 		#df_plot = df_plot.groupby(['ID']).sum()
-		st.write(df_plot.groupby(by=['ID']).mean())
+		#st.write(df_plot.groupby(by=['ID']).mean())
+		st.write(df_plot.agg(['sum']))
 
 	return ferramenta_em_uso
 
