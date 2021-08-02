@@ -428,8 +428,11 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 				#t2.info('Medidas dentro do padrão')
 				num_strokes = t2.number_input('Número de Strokes', key='(retificar)', format='%i', step=1)
-
-				submitted = t2.button('Retificar ferramenta')
+				
+				submitted = False
+				if num_strokes > 0:
+					submitted = t2.button('Retificar ferramenta')
+					
 				if submitted:
 
 					ferramenta_retificada = ferramenta_em_uso
@@ -457,7 +460,10 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
 		num_strokes = t2.number_input('Número de Strokes', key='(selecionar)', format='%i', step=1)
-		selecionar = t2.button('Utilizar a ferramenta selecionada?')
+		
+		selecionar = False
+		if num_strokes > 0:
+			selecionar = t2.button('Utilizar a ferramenta selecionada?')
 
 		if selecionar:
 			# define os dados a serem inseridos
@@ -482,7 +488,10 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
 		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1)
-		selecionar = t2.button('Utilizar a ferramenta selecionada?')
+		
+		selecionar = False
+		if num_strokes > 0:
+			selecionar = t2.button('Utilizar a ferramenta selecionada?')
 
 		if selecionar:
 			# finaliza o uso da ferramenta atual
