@@ -245,7 +245,7 @@ def ajuste_dados(df):
 	return nome_last, data_last, df_row0[['Medidas', 'V']]
 
 
-def ajuste_dados2(df):
+def ajuste_dados2(df, mode):
 	# seleciona a primeira linha e a transforma em coluna
 
 	df_row0 = df.reset_index().T
@@ -253,9 +253,13 @@ def ajuste_dados2(df):
 	# reseta index (index vira uma coluna)
 	df_row0 = df_row0.reset_index()
 
-	# Renomeia a coluna dos valores
-	df_row0.rename(columns={0: "Valores"}, inplace=True)
-	df_row0.rename(columns={'index': "Medidas"}, inplace=True)
+	if mode == 0:
+		# Renomeia a coluna dos valores
+		df_row0.rename(columns={0: "Valores"}, inplace=True)
+		df_row0.rename(columns={'index': "Medidas"}, inplace=True)
+	elif mode == 1:
+		df_row0.rename(columns={0: "Strokes"}, inplace=True)
+		df_row0.rename(columns={'index': "Ferramentas"}, inplace=True)
 
 	# retorna o nome, data e dataset organizado para ser editado e exibido no html
 	return df_row0[['Medidas', 'Valores']]
@@ -584,13 +588,15 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		df_plot = df_plot[['ID', 'Dif_strokes']]
 		df_plot['Dif_strokes'] = df_plot['Dif_strokes'].astype('int')
 		df_plot = df_plot.groupby(['ID']).sum()
+		df_plot2 = ajuste_dados2(df_plot, 1)
+
 
 		col1, col2 = st.beta_columns([5, 15])
 		
 		with col1:
-			gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(500, df_plot, 0, 0, False)
+			gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(500, df_plot2, 0, 0, False)
 			response = AgGrid(
-				df_plot,
+				df_plot2,
 				gridOptions=gridOptions,
 				height=grid_height,
 				width='100%',
@@ -601,7 +607,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				enable_enterprise_modules=enable_enterprise_modules, key='Histórico strokes')
 			
 		with col2:
-			st.table(df_plot)
+			st.table(df_plot2)
 			pass
 
 	return ferramenta_em_uso
@@ -783,7 +789,7 @@ if em_uso_bd.shape[0] > 0:
 if em_uso_up.shape[0] > 0:
 	df_full.iloc[0,19]	= em_uso_up.iloc[0,5]		# UPPER PISTON A
 
-dfull2 = ajuste_dados2(df_full.rename(columns=dicionario_colunas))
+dfull2 = ajuste_dados2(df_full.rename(columns=dicionario_colunas), 0)
 
 with t1:
 	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(712, dfull2, 0, 0, False)
