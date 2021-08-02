@@ -385,7 +385,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 			with t2:
 				gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(
-					63, df, mi, ma, True)
+					64, df, mi, ma, True)
 				t2.write(tit)
 				response = AgGrid(
 					df[df['Medidas'] == med],
@@ -429,7 +429,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				dic['Nome'] = nome
 				dic['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 
-				t2.info('Medidas dentro do padrão')
+				#t2.info('Medidas dentro do padrão')
 				submitted = t2.button('Retificar ferramenta')
 				if submitted:
 
