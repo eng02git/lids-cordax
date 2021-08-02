@@ -134,11 +134,12 @@ def write_data(df_ferramenta, colecao):
 		caching.clear_cache()
 
 		# flag para rodar novamente o script
-		rerun = True
+		#rerun = True
+		return True
 	except:
 		st.error('Falha ao adicionar ferramenta, tente novamente ou entre em contato com suporte!')
-	if rerun:
-		st.experimental_rerun()
+	#if rerun:
+		#st.experimental_rerun()
 
 
 # leitura de dados do banco
@@ -367,9 +368,12 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 	# cria dicionario vazio
 	dic = {}
-
+	
+	# cria dataframe vazio
 	df_validacao = pd.DataFrame()
 
+	# iniciacao d variaveis
+	rerun = False
 	index = 0
 	limits = 0
 
@@ -453,7 +457,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 					df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
 					df_firebase = df_firebase.append(ferramenta_retificada)
-					write_data(df_firebase, colecao)
+					rerun = write_data(df_firebase, colecao)
 
 			else:
 				t2.error('Dados inválidos')
@@ -485,7 +489,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Strokes'] = num_strokes
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
-			write_data(df_firebase, colecao)
+			rerun = write_data(df_firebase, colecao)
 	
 	if ferramenta_em_uso.shape[0] > 0:
 		# modificar a ferramenta
@@ -533,7 +537,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Strokes'] = num_strokes
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
-			write_data(df_firebase, colecao)
+			rerun = write_data(df_firebase, colecao)
 
 	st.subheader('Histórico de medidas')
 	
@@ -578,7 +582,8 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			fit_columns_on_grid_load=fit_columns_on_grid_load,
 			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
 			enable_enterprise_modules=enable_enterprise_modules, key='Histórico completo')
-
+	if rerun:
+		st.experimental_rerun()
 	return ferramenta_em_uso
 
 
