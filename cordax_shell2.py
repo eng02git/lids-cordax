@@ -385,7 +385,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 			with t2:
 				gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(
-					65, df, mi, ma, True)
+					67, df, mi, ma, True)
 				t2.write(tit)
 				response = AgGrid(
 					df[df['Medidas'] == med],
@@ -429,7 +429,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				dic['Nome'] = nome
 				dic['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 
-				t2.info('Medidas dentro do padrao')
+				t2.info('Medidas dentro do padrão')
 				submitted = t2.button('Retificar ferramenta')
 				if submitted:
 
@@ -446,7 +446,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 					write_data(df_firebase, colecao)
 
 			else:
-				t2.error('Dados invalidos')
+				t2.error('Dados inválidos')
 	else:
 		t2.subheader('Selecione uma ferramenta para utilizar')
 
@@ -501,7 +501,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			df_firebase = df_firebase.append(ferramenta_selecionada)
 			write_data(df_firebase, colecao)
 
-	st.subheader('Historico de medidas')
+	st.subheader('Histórico de medidas')
 	
 	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(500, df_firebase, 0, 0, False)
 	
