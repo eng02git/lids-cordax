@@ -598,7 +598,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				update_mode=update_mode_value,
 				fit_columns_on_grid_load=fit_columns_on_grid_load,
 				allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
-				enable_enterprise_modules=enable_enterprise_modules, key='Histórico completo')
+				enable_enterprise_modules=enable_enterprise_modules, key='Histórico strokes')
 			
 		with col2:
 			pass
