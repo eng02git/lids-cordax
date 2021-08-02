@@ -583,10 +583,25 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		df_plot = df_firebase[df_firebase['Dif_strokes'] != '-']
 		df_plot = df_plot[['ID', 'Dif_strokes']]
 		df_plot['Dif_strokes'] = df_plot['Dif_strokes'].astype('int')
-		#st.write(df_plot)
-		#df_plot = df_plot.groupby(['ID']).sum()
-		st.write(df_plot.groupby(by=['ID']).sum())
-		#st.write(df_plot.agg(['sum']))
+		df_plot = df_plot.groupby(['ID']).sum()
+
+		col1, col2 = st.beta_columns([5, 15])
+		
+		with col1:
+			gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(500, df_plot, 0, 0, False)
+			response = AgGrid(
+				df_plot,
+				gridOptions=gridOptions,
+				height=grid_height,
+				width='100%',
+				data_return_mode=return_mode_value,
+				update_mode=update_mode_value,
+				fit_columns_on_grid_load=fit_columns_on_grid_load,
+				allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
+				enable_enterprise_modules=enable_enterprise_modules, key='Histórico completo')
+			
+		with col2:
+			pass
 
 	return ferramenta_em_uso
 
