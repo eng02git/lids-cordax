@@ -811,6 +811,10 @@ if em_uso_bd.shape[0] > 0:
 
 if em_uso_up.shape[0] > 0:
 	df_full.iloc[0,19]	= em_uso_up.iloc[0,5]		# UPPER PISTON A
+	
+# teste de regras
+
+# regra 1 =>  6.1611 > DCR_A + PP_A > 6.1608
 
 dfull2 = ajuste_dados2(df_full.rename(columns=dicionario_colunas), 0)
 
@@ -826,6 +830,11 @@ with t1:
 			fit_columns_on_grid_load=fit_columns_on_grid_load,
 			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
 			enable_enterprise_modules=enable_enterprise_modules)
+	
+	
+	
+	
+	
 
 # Tela DIE CORE RING
 if sel_tela == 'DIE CORE RING':
