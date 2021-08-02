@@ -618,14 +618,16 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			
 		with col2:
 			# Criação dos gráficos (1 subplots)
-			colors = ['blue']
-			fig = make_subplots(rows=1, 
-			    cols=1,
-			    subplot_titles=("Distribuição da quantidade de strokes por ferramenta"),
-			    column_widths=[1]
-			   )
-			fig.add_trace(go.Histogram(x=df_plot2['Total de Strokes da ferramenta'], marker_color=colors, xbins = dict(start=0, end=20000000, size=1000000)), row=1, col=1)
-			col2.write(fig)
+			#colors = ['blue']
+			#fig = make_subplots(rows=1, 
+			    #cols=1,
+			    #subplot_titles=("Distribuição da quantidade de strokes por ferramenta"),
+			    #column_widths=[1]
+			   #)
+			#fig.add_trace(go.Histogram(x=df_plot2['Total de Strokes da ferramenta'], marker_color=colors, xbins = dict(start=0, end=20000000, size=1000000)), row=1, col=1)
+			#col2.write(fig)
+			fig = px.histogram(df_plot2['Total de Strokes da ferramenta'], x="Strokes", nbins=20)
+			fig.show()
 
 	return ferramenta_em_uso
 
