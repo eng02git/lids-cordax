@@ -3,6 +3,9 @@ from streamlit import caching
 import pandas as pd
 import numpy as np
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 import streamlit.components.v1 as components
 import base64
 import json
