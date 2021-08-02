@@ -600,8 +600,11 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		df_plot = df_plot.groupby(['ID']).sum()
 		df_plot2 = ajuste_dados2(df_plot, 1)
 
-
+		# definição das colunas para mostrar os dados (tabela e grafico)
 		col1, col2 = st.beta_columns([5, 15])
+		
+		# titulo
+		col1.subheader('Distribuição do total de Strokes por ferramenta')
 		
 		with col1:
 			gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(500, df_plot2, 0, 0, False)
@@ -627,7 +630,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			#fig.add_trace(go.Histogram(x=df_plot2['Total de Strokes da ferramenta'], marker_color=colors, xbins = dict(start=0, end=20000000, size=1000000)), row=1, col=1)
 			#col2.write(fig)
 			fig = px.histogram(df_plot2, x="Total de Strokes da ferramenta", nbins=20)
-			col2.subheader('Distribuição do total de Strokes por ferramenta')
+			
 			col2.write(fig)
 
 	return ferramenta_em_uso
