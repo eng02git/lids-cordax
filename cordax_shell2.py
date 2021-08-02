@@ -726,7 +726,7 @@ if em_uso_up.shape[0] > 0:
 dfull2 = ajuste_dados2(df_full.rename(columns=dicionario_colunas))
 
 with t1:
-	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(715, dfull2, 0, 0, False)
+	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(712, dfull2, 0, 0, False)
 	response = AgGrid(
 			dfull2,
 			gridOptions=gridOptions,
