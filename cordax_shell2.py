@@ -618,6 +618,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			
 		with col2:
 			# Criação dos gráficos (1 subplots)
+			colors = ['blue']
 			fig = make_subplots(rows=1, 
 			    cols=1,
 			    subplot_titles=("Distribuição da quantidade de strokes por ferramenta"),
