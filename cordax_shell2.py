@@ -263,6 +263,9 @@ def ajuste_dados2(df, mode):
 
 		# reseta index (index vira uma coluna)
 		df_row0 = df.reset_index()
+		
+		# Renomeia a coluna dos valores
+		df_row0.rename(columns={'Dif_strokes': "Total de Strokes da ferramenta"}, inplace=True)
 
 		# retorna o nome, data e dataset organizado para ser editado e exibido no html
 		return df_row0
