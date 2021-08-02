@@ -507,7 +507,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		# verifica se numero de strokes e maior do que zero
 		selecionar = False
 		if num_strokes > strokes_atual:
-			if id_selecionado != '':
+			if id_selecionado != None:
 				selecionar = t2.button('Utilizar a ferramenta selecionada?')
 			else:
 				selecionar = t2.button('Finalizar a ferramenta atual?')
