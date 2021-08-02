@@ -426,9 +426,10 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				dic['Nome'] = nome
 				dic['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 
-				#t2.info('Medidas dentro do padrão')
+				# input para numero de strokes
 				num_strokes = t2.number_input('Número de Strokes', key='(retificar)', format='%i', step=1)
 				
+				# verifica se numero de strokes é maior do que zero
 				submitted = False
 				if num_strokes > 0:
 					submitted = t2.button('Retificar ferramenta')
@@ -459,8 +460,11 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		# definindo as ferramentas disponiveis
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
+		
+		# input para numero de strokes
 		num_strokes = t2.number_input('Número de Strokes', key='(selecionar)', format='%i', step=1)
 		
+		# verifica se numero de strokes e maior do que zero
 		selecionar = False
 		if num_strokes > 0:
 			selecionar = t2.button('Utilizar a ferramenta selecionada?')
@@ -487,8 +491,14 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		# filtrando as ferramentas disponíveis
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
+		
+		# input para numero de strokes
 		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1)
 		
+		# verfica o numero de strokes da ferramenta em uso
+		t2.write(ferramenta_em_uso.Strokes)
+		
+		# verifica se numero de strokes e maior do que zero
 		selecionar = False
 		if num_strokes > 0:
 			selecionar = t2.button('Utilizar a ferramenta selecionada?')
