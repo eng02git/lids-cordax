@@ -275,7 +275,7 @@ def config_grid(height, df, lim_min, lim_max, customizar):
 
 	# enterprise modules
 	enable_enterprise_modules = False
-	enable_sidebar = True
+	enable_sidebar = False
 
 	# features
 	fit_columns_on_grid_load = True
@@ -601,7 +601,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				enable_enterprise_modules=enable_enterprise_modules, key='Histórico strokes')
 			
 		with col2:
-			st.table()
+			st.table(df_plot)
 			pass
 
 	return ferramenta_em_uso
