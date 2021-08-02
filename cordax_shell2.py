@@ -614,7 +614,13 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				enable_enterprise_modules=enable_enterprise_modules, key='Histórico strokes')
 			
 		with col2:
-			st.table(df_plot2)
+			# Criação dos gráficos (1 subplots)
+			fig = make_subplots(rows=1, 
+			    cols=1,
+			    subplot_titles=("Distribuição da quantidade de strokes por ferramenta"),
+			    column_widths=[1]
+			   )
+			fig.add_trace(go.Histogram(x=df_plot2['Total de Strokes da ferramenta'], marker_color=colors), row=1, col=1)
 			pass
 
 	return ferramenta_em_uso
