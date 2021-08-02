@@ -138,6 +138,7 @@ def write_data(df_ferramenta, colecao):
 		return True
 	except:
 		st.error('Falha ao adicionar ferramenta, tente novamente ou entre em contato com suporte!')
+		return False
 	#if rerun:
 		#st.experimental_rerun()
 
