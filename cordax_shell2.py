@@ -498,11 +498,11 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1)
 		
 		# verfica o numero de strokes da ferramenta em uso
-		t2.write(ferramenta_em_uso.Strokes.iloc[0])
+		strokes_atual = t2.write(ferramenta_em_uso.Strokes.iloc[0])
 		
 		# verifica se numero de strokes e maior do que zero
 		selecionar = False
-		if num_strokes > 0:
+		if num_strokes > strokes_atual:
 			selecionar = t2.button('Utilizar a ferramenta selecionada?')
 
 		if selecionar:
