@@ -263,9 +263,11 @@ def ajuste_dados2(df, mode):
 
 		# reseta index (index vira uma coluna)
 		df_row0 = df.reset_index()
+		st.write(df_row0)
 		
 		df_row0.rename(columns={0: "Strokes"}, inplace=True)
 		df_row0.rename(columns={'index': "Ferramentas"}, inplace=True)
+		st.write(df_row0)
 
 		# retorna o nome, data e dataset organizado para ser editado e exibido no html
 		return df_row0[['Ferramentas', 'Strokes']]
