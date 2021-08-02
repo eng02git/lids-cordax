@@ -621,7 +621,7 @@ valores = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'
 df_full = pd.DataFrame(valores, columns=colunas_conjunto)
 
 # seleciona o conjunto
-t0.subheader('N:')
+t0.subheader('#')
 conjunto = t0.radio(' ', list(range(1, 29)))
 t1.subheader('Valores atuais do conjunto')
 
