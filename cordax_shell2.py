@@ -209,6 +209,8 @@ def load_colecoes(colecao, colunas):
 
 		# Transforma string em tipo data
 		df_lc['Data'] = pd.to_datetime(df_lc['Data'])
+		df_lc['Strokes'] = df_lc['Strokes'].astype('int64')
+		df_lc['Dif_strokes'] = df_lc['Dif_strokes'].astype('int64')
 
 		# Ordena os dados pela data
 		df_lc = df_lc.sort_values(by=['Data'], ascending=False)
