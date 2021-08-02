@@ -246,23 +246,30 @@ def ajuste_dados(df):
 
 
 def ajuste_dados2(df, mode):
-	# seleciona a primeira linha e a transforma em coluna
-
-	df_row0 = df.reset_index().T
-
-	# reseta index (index vira uma coluna)
-	df_row0 = df_row0.reset_index()
-
 	if mode == 0:
+		# seleciona a primeira linha e a transforma em coluna
+		df_row0 = df.reset_index().T
+
+		# reseta index (index vira uma coluna)
+		df_row0 = df_row0.reset_index()
+		
 		# Renomeia a coluna dos valores
 		df_row0.rename(columns={0: "Valores"}, inplace=True)
 		df_row0.rename(columns={'index': "Medidas"}, inplace=True)
+		
+		# retorna o nome, data e dataset organizado para ser editado e exibido no html
+		return df_row0[['Medidas', 'Valores']]
 	elif mode == 1:
+		
+		# reseta index (index vira uma coluna)
+		df_row0 = df_row0.reset_index()
+		
 		df_row0.rename(columns={0: "Strokes"}, inplace=True)
 		df_row0.rename(columns={'index': "Ferramentas"}, inplace=True)
 
-	# retorna o nome, data e dataset organizado para ser editado e exibido no html
-	return df_row0[['Medidas', 'Valores']]
+		# retorna o nome, data e dataset organizado para ser editado e exibido no html
+		return df_row0[['Ferramentas', 'Strokes']]
+
 
 ###########################################################################################################################################
 #####								cofiguracoes aggrid											#######
