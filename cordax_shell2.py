@@ -601,10 +601,10 @@ dicionario_colunas = {'DCR_A':'DIE CORE RING A (DCR_A)',
 					  'IPS_A':'INNER PRESSURE SLEEVE A (IPS_A)',
 					  'IPS_B':'INNER PRESSURE SLEEVE B (IPS_B)',
 					  'IPS_C':'INNER PRESSURE SLEEVE C (IPS_C)',
-					  'DCPU_A':'DIE CENTER PUNCH PISTON A (DCPP_A)',
-					  'DCPU_B':'DIE CENTER PUNCH PISTON B (DCPP_B)',
-					  'DCPI_A':'DIE CENTER PISTON A (DCPI_A)',
-					  'DCPI_B':'DIE CENTER PISTON B (DCPI_B)',
+					  'DCPP_A':'DIE CENTER PUNCH PISTON A (DCPP_A)',
+					  'DCPP_B':'DIE CENTER PUNCH PISTON B (DCPP_B)',
+					  'DCP_A':'DIE CENTER PISTON A (DCPI_A)',
+					  'DCP_B':'DIE CENTER PISTON B (DCPI_B)',
 					  'CE_A':'CUT EDGE A (CE_A)',
 					  'BD_A':'BLANK DRAW A (BD_A)',
 					  'BD_B':'BLANK DRAW B (BD_B)',
@@ -727,7 +727,7 @@ dfull2 = ajuste_dados2(df_full.rename(columns=dicionario_colunas))
 #t1.write(dfull2)
 
 with t1:
-	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(650, dfull2, 0, 0, False)
+	gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(700, dfull2, 0, 0, False)
 	response = AgGrid(
 			dfull2,
 			gridOptions=gridOptions,
