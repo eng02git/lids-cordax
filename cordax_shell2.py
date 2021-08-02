@@ -431,6 +431,8 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				dic['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 
 				#t2.info('Medidas dentro do padrão')
+				num_strokes = t2.number_input('Número de Strokes', key='(retificar)')
+
 				submitted = t2.button('Retificar ferramenta')
 				if submitted:
 
@@ -438,6 +440,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 					ferramenta_retificada['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 					ferramenta_retificada['Nome'] = nome
 					ferramenta_retificada['Reformada'] = 'Sim'
+					ferramenta_retificada['Strokes'] = num_strokes
 
 					for index, row in df_validacao.iterrows():
 						ferramenta_retificada[str(row['Medidas'])] = row['V']
@@ -457,6 +460,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		# definindo as ferramentas disponiveis
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
+		num_strokes = t2.number_input('Número de Strokes', key='(selecionar)')
 		selecionar = t2.button('Utilizar a ferramenta selecionada?')
 
 		if selecionar:
@@ -466,6 +470,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Nome'] = nome
 			ferramenta_selecionada['Status'] = 'Em Uso'
 			ferramenta_selecionada['Conjunto'] = conjunto
+			ferramenta_selecionada['Strokes'] = num_strokes
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
 			write_data(df_firebase, colecao)
@@ -480,6 +485,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		# filtrando as ferramentas disponíveis
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
+		num_strokes = t2.number_input('Número de Strokes', key='Trocar')
 		selecionar = t2.button('Utilizar a ferramenta selecionada?')
 
 		if selecionar:
@@ -488,6 +494,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_finalizada['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 			ferramenta_finalizada['Nome'] = nome
 			ferramenta_finalizada['Status'] = 'Finalizada'
+			ferramenta_finalizada['Strokes'] = num_strokes
 			df_firebase = df_firebase.append(ferramenta_finalizada)
 
 			df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
@@ -498,6 +505,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_selecionada['Nome'] = nome
 			ferramenta_selecionada['Status'] = 'Em Uso'
 			ferramenta_selecionada['Conjunto'] = conjunto
+			ferramenta_selecionada['Strokes'] = num_strokes
 
 			df_firebase = df_firebase.append(ferramenta_selecionada)
 			write_data(df_firebase, colecao)
