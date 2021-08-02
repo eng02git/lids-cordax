@@ -414,10 +414,6 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		else:
 
 			df_group = df_validacao
-			#df_group['Max'] = [123, 4321, 123]
-			#df_group['Min'] = [0, 0, 0]
-			#df_group['Resultado'] = np.where(((df_group['V'] < df_group['Max']) & (df_group['V'] > df_group['Min'])),
-											# 'valido', 'invalido')
 
 			dados_invalidos = 'invalido' in df_group.values
 			if limits == 0:  # not dados_invalidos and
@@ -431,7 +427,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 				dic['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 
 				#t2.info('Medidas dentro do padrão')
-				num_strokes = t2.number_input('Número de Strokes', key='(retificar)')
+				num_strokes = t2.number_input('Número de Strokes', key='(retificar)', format='%i')
 
 				submitted = t2.button('Retificar ferramenta')
 				if submitted:
@@ -460,7 +456,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		# definindo as ferramentas disponiveis
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
-		num_strokes = t2.number_input('Número de Strokes', key='(selecionar)')
+		num_strokes = t2.number_input('Número de Strokes', key='(selecionar)', format='%i')
 		selecionar = t2.button('Utilizar a ferramenta selecionada?')
 
 		if selecionar:
@@ -485,7 +481,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		# filtrando as ferramentas disponíveis
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
-		num_strokes = t2.number_input('Número de Strokes', key='Trocar')
+		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i')
 		selecionar = t2.button('Utilizar a ferramenta selecionada?')
 
 		if selecionar:
