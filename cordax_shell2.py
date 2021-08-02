@@ -427,13 +427,16 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 					dic[chave] = str(row['V'])
 				dic['Nome'] = nome
 				dic['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+				
+				# numero de strokes da ferramenta em uso
+				strokes_atual = int(ferramenta_em_uso.Strokes.iloc[0])
 
 				# input para numero de strokes
-				num_strokes = t2.number_input('Número de Strokes', key='(retificar)', format='%i', step=1)
+				num_strokes = t2.number_input('Número de Strokes', key='(retificar)', format='%i', step=1, value=strokes_atual)
 				
 				# verifica se numero de strokes é maior do que zero
 				submitted = False
-				if num_strokes > 0:
+				if num_strokes > strokes_atual:
 					submitted = t2.button('Retificar ferramenta')
 					
 				if submitted:
@@ -443,6 +446,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 					ferramenta_retificada['Nome'] = nome
 					ferramenta_retificada['Reformada'] = 'Sim'
 					ferramenta_retificada['Strokes'] = num_strokes
+					ferramenta_retificada['Dif_strokes'] = num_strokes - strokes_atual
 
 					for index, row in df_validacao.iterrows():
 						ferramenta_retificada[str(row['Medidas'])] = row['V']
@@ -494,11 +498,11 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		disponiveis = df_firebase[~df_firebase['ID'].astype('str').isin(nao_disponivel)]
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
 		
-		# input para numero de strokes
-		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1)
-		
 		# verfica o numero de strokes da ferramenta em uso
 		strokes_atual = int(ferramenta_em_uso.Strokes.iloc[0])
+		
+		# input para numero de strokes
+		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1, value=strokes_atual)
 		
 		# verifica se numero de strokes e maior do que zero
 		selecionar = False
@@ -512,6 +516,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			ferramenta_finalizada['Nome'] = nome
 			ferramenta_finalizada['Status'] = 'Finalizada'
 			ferramenta_finalizada['Strokes'] = num_strokes
+			ferramenta_finalizada['Dif_strokes'] = num_strokes - strokes_atual
 			df_firebase = df_firebase.append(ferramenta_finalizada)
 
 			df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
