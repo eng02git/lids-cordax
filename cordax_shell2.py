@@ -611,10 +611,10 @@ dicionario_colunas = {'DCR_A':'DIE CORE RING A (DCR_A)',
 					  'UP_A':'UPPER PISTON A (UP_A)'}
 
 # Menu externo ao formulario
-i00, i01 = st.beta_columns([5, 16])
+i00, i01 = st.beta_columns([7, 14])
 
 # define as colunas da pagina
-t0, t1, html, t2 = st.beta_columns([1, 4, 9, 7])
+t0, t1, html, t2 = st.beta_columns([1, 6, 9, 5])
 
 # carrega dados do sistema
 valores = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', ]]
