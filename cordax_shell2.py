@@ -579,7 +579,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
 			enable_enterprise_modules=enable_enterprise_modules, key='Histórico completo')
 		
-	with st.beta_expander('Histórico Strokes por ferramenta')
+	with st.beta_expander('Histórico Strokes por ferramenta'):
 		df_plot = df_firebase[df_firebase['Dif_strokes'] != '-']
 		df_plot = df_plot[['ID', 'Dif_strokes']].groupby(['ID']).sum()
 		st.write(df_plot)
