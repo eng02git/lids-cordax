@@ -1136,3 +1136,7 @@ if sel_tela == 'CUT EDGE':
 										  v0='',
 										  nome='Última alteração feita por: ',
 										  data='Data: '), height=775)
+reset = st.button('reset')
+if reset:
+	# Limpa cache
+	caching.clear_cache()
