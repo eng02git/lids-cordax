@@ -657,7 +657,7 @@ dicionario_colunas = {'DCR_A':'DIE CORE RING A (DCR_A)',
 i00, i01 = st.beta_columns([5, 16])
 
 # define as colunas da pagina
-t0, t1, html, t2 = st.beta_columns([1, 4, 9, 7])
+t0, t1, html, t2 = st.beta_columns([1, 4, 12, 4])
 
 # carrega dados do sistema
 valores = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', ]]
