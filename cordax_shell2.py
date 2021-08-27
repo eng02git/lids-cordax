@@ -2,10 +2,10 @@ import streamlit as st
 from streamlit import caching
 import pandas as pd
 import numpy as np
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 import streamlit.components.v1 as components
 import base64
 import json
@@ -28,7 +28,6 @@ st.set_page_config(
 ######################################################################################################
 # Configurando acesso ao firebase
 ######################################################################################################
-
 # Pega as configurações do banco do segredo
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
@@ -37,9 +36,7 @@ creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds, project="lid-cordax-74698")
 
 # Ajustando fuso
-
 tz = pytz.timezone('America/Bahia')
-
 
 ###########################################################################################################################################
 #####								funcoes																			#########
@@ -54,7 +51,7 @@ def color(val):
 	return 'background-color: %s' % color
 
 
-def adicionar_ferramental(df_ferramenta, nomes, colecao):
+def adicionar_ferramental(df_ferramenta, nomes, colecao, maximo, minimo):
 
 	# seleção do modo de inclusão
 	modo = st.radio('Modo de inclusão', ['Manual', 'Planilha'])
@@ -74,10 +71,10 @@ def adicionar_ferramental(df_ferramenta, nomes, colecao):
 			include['Strokes'] = '-'
 			include['Dif_strokes'] = '-'
 
-			ferramentas = df_ferramenta.drop(['Data', 'ID', 'Nome', 'Status', 'Conjunto', 'Reformada', 'Strokes', 'Dif_strokes'], axis=1)
+			ferramentas = df_ferramenta.drop(['Data', 'ID', 'Nome', 'Status', 'Conjunto', 'Reformada'], axis=1)
 
-			for col in ferramentas.columns:
-				include[col] = st.number_input('Valor da medida ' + col + ':', step=0.0001, format="%0.1111f")
+			for (col, ma, mi) in zip(ferramentas.columns, maximo, minimo):
+				include[col] = round(st.number_input('Valor da medida ' + col + ':', step=0.0001, format="%0.4f", max_value=ma, min_value=mi),4)
 
 			submitted = st.form_submit_button('Adicionar ferramenta')
 
@@ -212,8 +209,6 @@ def load_colecoes(colecao, colunas):
 
 		# Transforma string em tipo data
 		df_lc['Data'] = pd.to_datetime(df_lc['Data'])
-		#df_lc['Strokes'] = df_lc['Strokes'].astype('int64')
-		#df_lc['Dif_strokes'] = df_lc['Dif_strokes'].astype('int64')
 
 		# Ordena os dados pela data
 		df_lc = df_lc.sort_values(by=['Data'], ascending=False)
@@ -246,8 +241,8 @@ def ajuste_dados(df):
 
 	# retorna o nome, data e dataset organizado para ser editado e exibido no html
 	return nome_last, data_last, df_row0[['Medidas', 'V']]
-
-
+	
+	
 def ajuste_dados2(df, mode):
 	if mode == 0:
 		# seleciona a primeira linha e a transforma em coluna
@@ -377,7 +372,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 	with t2:
 		with st.beta_expander('Adicionar nova ferramenta ao sistema'):
-			adicionar_ferramental(df_firebase, nomes, colecao)
+			adicionar_ferramental(df_firebase, nomes, colecao, val_max, val_min)
 
 	# cria dicionario vazio
 	dic = {}
@@ -395,82 +390,43 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		nome_last, data_last, df = ajuste_dados(ferramenta_em_uso)
 	except:
 		t2.error('Não há ferramenta em uso')
+		
+	if ferramenta_em_uso.shape[0] > 0:
+		valor = int(ferramenta_em_uso.Strokes.max())
+	else:
+		valor = 0
 
+	ferramenta_retificada = ferramenta_em_uso.copy()
 	if ferramenta_em_uso.shape[0] > 0:
 		t2.subheader('Retificar ferramenta em uso')
+		
 		for (mi, ma, med, tit) in zip(val_min, val_max, medida, titulo):
+			ferramenta_retificada[med] = round(t2.number_input(tit, format='%.4f', step=0.0001, min_value=mi, max_value=ma),4)
+			
+		# numero de strokes da ferramenta em uso
+		strokes_atual = int(ferramenta_em_uso.Strokes.iloc[0])
 
-			with t2:
-				gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(
-					64, df, mi, ma, True)
-				t2.write(tit)
-				response = AgGrid(
-					df[df['Medidas'] == med],
-					gridOptions=gridOptions,
-					height=grid_height,
-					width='100%',
-					data_return_mode=return_mode_value,
-					update_mode=update_mode_value,
-					fit_columns_on_grid_load=fit_columns_on_grid_load,
-					allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
-					enable_enterprise_modules=enable_enterprise_modules, key = (colecao + tit))
-				df_auxiliar = response['data']
-				df_validacao = pd.concat([df_validacao, df_auxiliar])
-				try:
-					if (df_auxiliar['V'].astype(float) > ma).any() | (df_auxiliar['V'].astype(float) < mi).any():
-						limits = 1
-				except:
-					t2.error('Valor não conforme')
+		# input para numero de strokes
+		num_strokes = t2.number_input('Número de Strokes', key='(retificar)', format='%i', step=1, value=valor)
+		
+		# verifica se numero de strokes é maior do que zero
+		submitted = False
+		if num_strokes > strokes_atual:
+			submitted = t2.button('Retificar ferramenta')	
+			
+		if submitted:
 
-		df_validacao['V'] = pd.to_numeric(df_validacao['V'], errors='coerce')
+			#ferramenta_retificada = ferramenta_em_uso
+			ferramenta_retificada['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+			ferramenta_retificada['Nome'] = nome
+			ferramenta_retificada['Reformada'] = 'Sim'
+			ferramenta_retificada['Strokes'] = num_strokes
+			ferramenta_retificada['Dif_strokes'] = num_strokes - strokes_atual
 
-		if df_validacao['V'].isnull().sum() > 0:
-			pass
-			#t2.error('Caracter invalido no campo Valor')
-		else:
+			df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
+			df_firebase = df_firebase.append(ferramenta_retificada)
+			write_data(df_firebase, colecao)
 
-			df_group = df_validacao
-
-			dados_invalidos = 'invalido' in df_group.values
-			if limits == 0:  # not dados_invalidos and
-				# Preparando dados para escrita no banco
-
-				dic = {}
-				for index, row in df_validacao.iterrows():
-					chave = row['Medidas']
-					dic[chave] = str(row['V'])
-				dic['Nome'] = nome
-				dic['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
-				
-				# numero de strokes da ferramenta em uso
-				strokes_atual = int(ferramenta_em_uso.Strokes.iloc[0])
-
-				# input para numero de strokes
-				num_strokes = t2.number_input('Número de Strokes', key='(retificar)', format='%i', step=1, value=strokes_atual)
-				
-				# verifica se numero de strokes é maior do que zero
-				submitted = False
-				if num_strokes > strokes_atual:
-					submitted = t2.button('Retificar ferramenta')
-					
-				if submitted:
-
-					ferramenta_retificada = ferramenta_em_uso
-					ferramenta_retificada['Data'] = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
-					ferramenta_retificada['Nome'] = nome
-					ferramenta_retificada['Reformada'] = 'Sim'
-					ferramenta_retificada['Strokes'] = num_strokes
-					ferramenta_retificada['Dif_strokes'] = num_strokes - strokes_atual
-
-					for index, row in df_validacao.iterrows():
-						ferramenta_retificada[str(row['Medidas'])] = row['V']
-
-					df_firebase.loc[df_firebase['Status'] == 'Em Uso', 'Status'] = 'Entrou em uso'
-					df_firebase = df_firebase.append(ferramenta_retificada)
-					write_data(df_firebase, colecao)
-
-			else:
-				t2.error('Dados inválidos')
 	else:
 		t2.subheader('Selecione uma ferramenta para utilizar')
 
@@ -482,13 +438,13 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		id_selecionado = t2.selectbox('Ferramentas disponíveis para uso', list(disponiveis['ID']))
 		
 		# input para numero de strokes
-		num_strokes = t2.number_input('Número de Strokes', key='(selecionar)', format='%i', step=1)
+		num_strokes = t2.number_input('Número de Strokes', key='(selecionar)', format='%i', step=1, value=valor)
 		
 		# verifica se numero de strokes e maior do que zero
 		selecionar = False
 		if num_strokes > 0:
 			selecionar = t2.button('Utilizar a ferramenta selecionada?')
-
+		
 		if selecionar:
 			# define os dados a serem inseridos
 			ferramenta_selecionada = df_firebase[df_firebase['ID'] == id_selecionado]
@@ -516,7 +472,7 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 		strokes_atual = int(ferramenta_em_uso.Strokes.iloc[0])
 		
 		# input para numero de strokes
-		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1, value=strokes_atual)
+		num_strokes = t2.number_input('Número de Strokes', key='Trocar', format='%i', step=1, value=valor)
 		
 		# verifica se numero de strokes e maior do que zero
 		selecionar = False
@@ -635,7 +591,6 @@ def teste(val_max, val_min, titulo, medida, colecao, dados, conjunto):
 
 	return ferramenta_em_uso
 
-
 ########################################################################################################################
 #####								Teste											########
 ########################################################################################################################
@@ -689,28 +644,27 @@ dicionario_colunas = {'DCR_A':'DIE CORE RING A (DCR_A)',
 					  'IPS_A':'INNER PRESSURE SLEEVE A (IPS_A)',
 					  'IPS_B':'INNER PRESSURE SLEEVE B (IPS_B)',
 					  'IPS_C':'INNER PRESSURE SLEEVE C (IPS_C)',
-					  'DCPP_A':'DIE CENTER PUNCH PISTON A (DCPP_A)',
-					  'DCPP_B':'DIE CENTER PUNCH PISTON B (DCPP_B)',
-					  'DCP_A':'DIE CENTER PISTON A (DCPI_A)',
-					  'DCP_B':'DIE CENTER PISTON B (DCPI_B)',
+					  'DCPU_A':'DIE CENTER PUNCH PISTON A (DCPP_A)',
+					  'DCPU_B':'DIE CENTER PUNCH PISTON B (DCPP_B)',
+					  'DCPI_A':'DIE CENTER PISTON A (DCPI_A)',
+					  'DCPI_B':'DIE CENTER PISTON B (DCPI_B)',
 					  'CE_A':'CUT EDGE A (CE_A)',
 					  'BD_A':'BLANK DRAW A (BD_A)',
 					  'BD_B':'BLANK DRAW B (BD_B)',
 					  'UP_A':'UPPER PISTON A (UP_A)'}
 
 # Menu externo ao formulario
-i00, i01 = st.beta_columns([7, 14])
+i00, i01 = st.beta_columns([5, 16])
 
 # define as colunas da pagina
-t0, t1, html, t2 = st.beta_columns([1, 6, 9, 5])
+t0, t1, html, t2 = st.beta_columns([1, 4, 9, 7])
 
 # carrega dados do sistema
 valores = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', ]]
 df_full = pd.DataFrame(valores, columns=colunas_conjunto)
 
 # seleciona o conjunto
-t0.subheader('#')
-conjunto = t0.radio(' ', list(range(1, 29)))
+conjunto = t0.radio('Conjuntos', list(range(1, 29)))
 t1.subheader('Valores atuais do conjunto')
 
 # seleciona o ferramental
@@ -744,6 +698,7 @@ em_uso_lp = dados_lp.loc[(dados_lp['Status'] == 'Em Uso') & (dados_lp['Conjunto'
 
 # CUT_EDGE
 colunas_ce = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'CE_A', 'Reformada', 'Strokes', 'Dif_strokes']
+
 dados_ce = load_colecoes('CUT_EDGE', colunas_ce)
 em_uso_ce = dados_ce.loc[(dados_ce['Status'] == 'Em Uso') & (dados_ce['Conjunto'] == str(conjunto))]
 
@@ -771,7 +726,6 @@ em_uso_ips = dados_ips.loc[(dados_ips['Status'] == 'Em Uso') & (dados_ips['Conju
 colunas_up = ['ID', 'Conjunto', 'Status', 'Nome', 'Data', 'UP_A', 'Reformada', 'Strokes', 'Dif_strokes']
 dados_up = load_colecoes('UPPER_PISTON', colunas_up)
 em_uso_up = dados_up.loc[(dados_up['Status'] == 'Em Uso') & (dados_up['Conjunto'] == str(conjunto))]
-
 df_full.iloc[0,0]	= conjunto					# numero do conjunto
 if em_uso_dcr.shape[0] > 0:
 	df_full.iloc[0,1]	= em_uso_dcr.iloc[0,5]		# DIE CORE RING A
@@ -831,11 +785,6 @@ with t1:
 			allow_unsafe_jscode=True,  # Set it to True to allow jsfunction to be injected
 			enable_enterprise_modules=enable_enterprise_modules)
 	
-	
-	
-	
-	
-
 # Tela DIE CORE RING
 if sel_tela == 'DIE CORE RING':
 
