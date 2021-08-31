@@ -815,14 +815,14 @@ if sel_tela == 'DIE CORE RING':
 										  v1=ferramenta_em_uso.iloc[0, 6],
 										  v2=ferramenta_em_uso.iloc[0, 7],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  v1='',
 										  v2='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 # Tela INNER PRESSURE SLEVE
 if sel_tela == 'INNER PRESSURE SLEVE':
@@ -855,14 +855,14 @@ if sel_tela == 'INNER PRESSURE SLEVE':
 										  v1=ferramenta_em_uso.iloc[0, 6],
 										  v2=ferramenta_em_uso.iloc[0, 7],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  v1='',
 										  v2='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'PANEL PUNCH PISTON':
 	# input de limites e das colunas do data frame
@@ -889,12 +889,12 @@ if sel_tela == 'PANEL PUNCH PISTON':
 			components.html(source.format(image=data_url,
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'UPPER PISTON':
 
@@ -922,12 +922,12 @@ if sel_tela == 'UPPER PISTON':
 			components.html(source.format(image=data_url,
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'DIE CENTER PISTON':
 
@@ -956,13 +956,13 @@ if sel_tela == 'DIE CENTER PISTON':
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  v1=ferramenta_em_uso.iloc[0, 6],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  v1='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'DIE CENTER PUNCH PISTON':
 
@@ -991,13 +991,13 @@ if sel_tela == 'DIE CENTER PUNCH PISTON':
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  v1=ferramenta_em_uso.iloc[0, 6],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  v1='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'PANEL PUNCH':
 
@@ -1026,13 +1026,13 @@ if sel_tela == 'PANEL PUNCH':
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  v1=ferramenta_em_uso.iloc[0, 6],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  v1='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'LOWER PISTON':
 
@@ -1061,13 +1061,13 @@ if sel_tela == 'LOWER PISTON':
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  v1=ferramenta_em_uso.iloc[0, 6],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  v1='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'BLANK DRAW':
 
@@ -1096,13 +1096,13 @@ if sel_tela == 'BLANK DRAW':
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  v1=ferramenta_em_uso.iloc[0, 6],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  v1='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 
 if sel_tela == 'CUT EDGE':
 
@@ -1130,12 +1130,12 @@ if sel_tela == 'CUT EDGE':
 			components.html(source.format(image=data_url,
 										  v0=ferramenta_em_uso.iloc[0, 5],
 										  nome='Última alteração feita por: ' + ferramenta_em_uso.iloc[0, 3],
-										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=775)
+										  data='Data: ' + str(ferramenta_em_uso.iloc[0, 4])), height=800)
 		else:
 			components.html(source.format(image=data_url,
 										  v0='',
 										  nome='Última alteração feita por: ',
-										  data='Data: '), height=775)
+										  data='Data: '), height=800)
 reset = st.button('reset')
 if reset:
 	# Limpa cache
