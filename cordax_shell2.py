@@ -673,6 +673,7 @@ sel_tela = i01.selectbox('Selecione o ferramental', options=telas)
 # Input de informacoes de nome e data
 nomes = ['Jorge Lopes da Silva',
 	 'Paulo Ribeiro Batista',
+	 'Kleber de Moraes Teixeira de Almeida',
 	 'Miron Luiz',
 	 'Roosevelt Cabral',
 	 'Gleydson dos Santos Martins',
