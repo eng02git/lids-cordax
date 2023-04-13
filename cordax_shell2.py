@@ -671,7 +671,17 @@ t1.subheader('Valores atuais do conjunto')
 sel_tela = i01.selectbox('Selecione o ferramental', options=telas)
 
 # Input de informacoes de nome e data
-nomes = ['Mario', 'Carvalho']
+nomes = ['Jorge Lopes da Silva',
+	 'Paulo Ribeiro Batista',
+	 'Miron Luiz',
+	 'Roosevelt Cabral',
+	 'Gleydson dos Santos Martins',
+	 'Joanilson Leal Otoni',
+	 'Welington Santos de Jesus',
+	 'Luiz Gustavo Ferraz',
+	 'Daniel Henrique Gargano',
+	 'Maria Eduarda Venancio']
+
 nome = i00.selectbox('Nome do colaborador:', nomes)
 
 # Leitura do banco de dados
